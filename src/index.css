@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand — deep ink navy anchors trust, teal signals "covered", amber flags attention */
+  --color-brand-primary: #12233F;
+  --color-brand-primary-light: #1B3A63;
+  --color-brand-secondary: #2E6DA4;
+  --color-brand-accent: #0E9C88;
+  --color-brand-warn: #C97A2B;
+
+  --color-background: #F7F8FA;
+  --color-foreground: #101828;
+  --color-card: #ffffff;
+  --color-card-foreground: #101828;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #101828;
+  --color-primary: #12233F;
+  --color-primary-foreground: #f8fafc;
+  --color-secondary: #EEF1F6;
+  --color-secondary-foreground: #101828;
+  --color-muted: #EEF1F6;
+  --color-muted-foreground: #5B6577;
+  --color-accent: #EAF6F3;
+  --color-accent-foreground: #0E9C88;
+  --color-destructive: #DC3D43;
+  --color-destructive-foreground: #f8fafc;
+  --color-border: #E4E8EF;
+  --color-input: #E4E8EF;
+  --color-ring: #2E6DA4;
+
+  --radius-sm: 0.3rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Manrope", "Inter", system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: var(--color-brand-accent);
+  color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted-foreground);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Shimmer sweep for skeleton loaders */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: shimmer-sweep 1.6s ease-in-out infinite;
+}
+
+/* Slow ambient float for decorative blobs */
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(8px, -14px) rotate(4deg); }
+}
+.animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
+@keyframes float-slower {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-10px, 12px) rotate(-3deg); }
+}
+.animate-float-slower {
+  animation: float-slower 13s ease-in-out infinite;
+}
+
+/* Validation shake */
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+.animate-shake {
+  animation: shake-x 0.4s ease-in-out;
+}
