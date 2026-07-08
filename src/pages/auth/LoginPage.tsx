@@ -77,13 +77,7 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <motion.form
-              onSubmit={handleSubmit}
-              className="space-y-4"
-              initial="hidden"
-              animate="show"
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } } }}
-            >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <motion.div
                 variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
                 animate={errors.email ? { x: [0, -6, 5, -4, 3, 0] } : undefined}
@@ -138,17 +132,14 @@ export default function LoginPage() {
                 {errors.password && <p className="text-sm text-destructive mt-1">{errors.password}</p>}
               </motion.div>
 
-              <motion.div
-                variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
-                className="flex items-center gap-2.5"
-              >
+              <div className="flex items-center gap-2.5">
                 <Checkbox checked={remember} onCheckedChange={setRemember} id="remember" />
                 <label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer select-none" onClick={() => setRemember((v) => !v)}>
                   Remember me for 30 days
                 </label>
-              </motion.div>
+              </div>
 
-              <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
+              <div>
                 <Button type="submit" className="w-full" size="lg" disabled={login.isPending}>
                   {login.isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -157,8 +148,8 @@ export default function LoginPage() {
                   )}
                   Sign In
                 </Button>
-              </motion.div>
-            </motion.form>
+              </div>
+            </form>
 
             <div className="flex items-center gap-3 my-6">
               <div className="h-px flex-1 bg-border" />

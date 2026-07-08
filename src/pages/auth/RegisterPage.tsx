@@ -85,13 +85,7 @@ export default function RegisterPage() {
               </p>
             </div>
 
-            <motion.form
-              onSubmit={handleSubmit}
-              className="space-y-4"
-              initial="hidden"
-              animate="show"
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } } }}
-            >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <label className="text-sm font-medium mb-1.5 block text-foreground">Full Name</label>
                 <div className="relative">
@@ -186,7 +180,7 @@ export default function RegisterPage() {
                   Create Account
                 </Button>
               </motion.div>
-            </motion.form>
+            </form>
 
             <p className="mt-6 text-center text-sm text-muted-foreground">
               Already have an account?{" "}

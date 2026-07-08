@@ -176,17 +176,10 @@ export default function MainLayout({ isAdmin }: MainLayoutProps) {
             <div className="mb-4 md:hidden">
               <Breadcrumb items={breadcrumbs} />
             </div>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={location.pathname}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-              >
-                <Outlet />
-              </motion.div>
-            </AnimatePresence>
+            {/* Removed animated route transitions temporarily to avoid blank/white flash
+                while navigating back to routes. If this fixes the issue we can reintroduce
+                enter/exit animations with a safer strategy. */}
+            <Outlet />
           </div>
         </main>
       </div>
