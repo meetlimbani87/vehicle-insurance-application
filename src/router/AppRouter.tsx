@@ -1,7 +1,8 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import MainLayout from "@/components/layout/MainLayout";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import RouteErrorPage from "@/components/RouteErrorPage";
 
 // Landing
 import LandingPage from "@/pages/LandingPage";
@@ -35,16 +36,17 @@ import MaintenancePage from "@/pages/admin/MaintenancePage";
 
 import NotFoundPage from "@/pages/NotFoundPage";
 
-export const router = createBrowserRouter([
-  { path: "/", element: <LandingPage /> },
-  { path: "/login", element: <LoginPage /> },
-  { path: "/register", element: <RegisterPage /> },
+export const router = createHashRouter([
+  { path: "/", element: <LandingPage />, errorElement: <RouteErrorPage /> },
+  { path: "/login", element: <LoginPage />, errorElement: <RouteErrorPage /> },
+  { path: "/register", element: <RegisterPage />, errorElement: <RouteErrorPage /> },
   {
     element: (
       <PrivateRoute>
         <MainLayout />
       </PrivateRoute>
     ),
+    errorElement: <RouteErrorPage />,
     children: [
       { path: "/dashboard", element: <DashboardPage /> },
       { path: "/applications", element: <ApplicationsPage /> },
@@ -67,6 +69,7 @@ export const router = createBrowserRouter([
         <MainLayout isAdmin />
       </AdminRoute>
     ),
+    errorElement: <RouteErrorPage />,
     children: [
       { path: "/admin/dashboard", element: <AdminDashboardPage /> },
       { path: "/admin/claims", element: <AdminClaimsPage /> },

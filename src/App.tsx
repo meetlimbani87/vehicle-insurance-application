@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { Shield } from "lucide-react";
 import { router } from "@/router/AppRouter";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 function SplashScreen() {
   return (
@@ -43,7 +44,9 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <QueryClientProvider client={queryClient}>
         <AnimatePresence>{booting && <SplashScreen />}</AnimatePresence>
-        <RouterProvider router={router} />
+        <ErrorBoundary>
+          <RouterProvider router={router} />
+        </ErrorBoundary>
         <Toaster richColors position="top-right" />
       </QueryClientProvider>
     </MotionConfig>
