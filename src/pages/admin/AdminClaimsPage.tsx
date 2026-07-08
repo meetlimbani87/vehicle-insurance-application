@@ -11,6 +11,7 @@ import { useClaims, useUpdateClaimStatus } from "@/hooks/useClaims";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ROUTES } from "@/constants/routes";
 import { Link } from "react-router";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -32,10 +33,7 @@ export default function AdminClaimsPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Manage Claims</h1>
-        <p className="text-muted-foreground">Review and process insurance claims</p>
-      </div>
+      <PageHeader title="Manage Claims" description="Review and process insurance claims" />
 
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="relative flex-1">

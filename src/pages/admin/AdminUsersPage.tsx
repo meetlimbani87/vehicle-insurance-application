@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { mockUsers, type User } from "@/mock/mockUsers";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -29,10 +30,7 @@ export default function AdminUsersPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Manage Users</h1>
-        <p className="text-muted-foreground">View and manage user accounts</p>
-      </div>
+      <PageHeader title="Manage Users" description="View and manage user accounts" />
 
       <div className="relative mb-4">
         <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />

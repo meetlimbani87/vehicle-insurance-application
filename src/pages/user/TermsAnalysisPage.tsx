@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -48,10 +49,7 @@ export default function TermsAnalysisPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Terms & Conditions Analysis</h1>
-        <p className="text-muted-foreground">AI-powered analysis of your insurance terms</p>
-      </div>
+      <PageHeader title="Terms & Conditions Analysis" description="AI-powered analysis of your insurance terms" />
 
       <Card className="mb-4">
         <CardHeader>

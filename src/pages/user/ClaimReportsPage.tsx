@@ -8,6 +8,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } fr
 import { useClaims } from "@/hooks/useClaims";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 const container = { animate: { transition: { staggerChildren: 0.07 } } };
@@ -20,10 +21,7 @@ export default function ClaimReportsPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Claim Reports</h1>
-        <p className="text-muted-foreground">View and download claim reports</p>
-      </div>
+      <PageHeader title="Claim Reports" description="View and download claim reports" />
 
       {isLoading ? (
         <div className="space-y-3">{[1, 2, 3].map((i) => <Skeleton key={i} className="h-20 rounded-xl" />)}</div>

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { mockAuditLogs } from "@/mock/mockAuditLogs";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -34,15 +35,15 @@ export default function AuditLogsPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Audit Logs</h1>
-          <p className="text-muted-foreground">Track all system activities</p>
-        </div>
-        <Button variant="outline" onClick={() => toast.info("CSV export coming soon")}>
-          <Download className="h-4 w-4 mr-2" /> Export CSV
-        </Button>
-      </div>
+      <PageHeader
+        title="Audit Logs"
+        description="Track all system activities"
+        actions={
+          <Button variant="outline" onClick={() => toast.info("CSV export coming soon")}>
+            <Download className="h-4 w-4 mr-2" /> Export CSV
+          </Button>
+        }
+      />
 
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="relative flex-1">

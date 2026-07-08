@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { mockPayments } from "@/mock/mockPayments";
 import { mockPolicies } from "@/mock/mockPolicies";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -26,15 +27,15 @@ export default function PaymentLogsPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Payment Logs</h1>
-          <p className="text-muted-foreground">View all payment transactions</p>
-        </div>
-        <Button variant="outline" onClick={() => toast.info("CSV export coming soon")}>
-          <Download className="h-4 w-4 mr-2" /> Export CSV
-        </Button>
-      </div>
+      <PageHeader
+        title="Payment Logs"
+        description="View all payment transactions"
+        actions={
+          <Button variant="outline" onClick={() => toast.info("CSV export coming soon")}>
+            <Download className="h-4 w-4 mr-2" /> Export CSV
+          </Button>
+        }
+      />
 
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <Select

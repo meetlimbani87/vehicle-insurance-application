@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { mockPolicies } from "@/mock/mockPolicies";
 import { mockClaims } from "@/mock/mockClaims";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -48,16 +49,16 @@ export default function AdminDashboardPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-          <p className="text-muted-foreground">System overview and analytics</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground">Maintenance</span>
-          <Switch checked={maintenanceMode} onCheckedChange={() => setShowDialog(true)} />
-        </div>
-      </div>
+      <PageHeader
+        title="Admin Dashboard"
+        description="System overview and analytics"
+        actions={
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground">Maintenance</span>
+            <Switch checked={maintenanceMode} onCheckedChange={() => setShowDialog(true)} />
+          </div>
+        }
+      />
 
       {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">

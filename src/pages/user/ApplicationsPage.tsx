@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePolicies } from "@/hooks/usePolicies";
 import { useClaims } from "@/hooks/useClaims";
 import { ROUTES } from "@/constants/routes";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },
@@ -47,10 +48,7 @@ export default function ApplicationsPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Applications</h1>
-        <p className="text-muted-foreground">View all your policies and claims</p>
-      </div>
+      <PageHeader title="Applications" description="View all your policies and claims" />
 
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="relative flex-1">

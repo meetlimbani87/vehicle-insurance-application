@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useClaims } from "@/hooks/useClaims";
 import { ROUTES } from "@/constants/routes";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 const container = { animate: { transition: { staggerChildren: 0.07 } } };
@@ -68,10 +69,7 @@ export default function ClaimTrackingPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Claim Tracking</h1>
-        <p className="text-muted-foreground">Track all your insurance claims</p>
-      </div>
+      <PageHeader title="Claim Tracking" description="Track all your insurance claims" />
 
       <div className="relative mb-4">
         <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />

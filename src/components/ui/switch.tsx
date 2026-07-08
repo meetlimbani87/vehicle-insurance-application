@@ -1,4 +1,5 @@
 import * as React from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface SwitchProps {
@@ -22,11 +23,11 @@ function Switch({ checked, onCheckedChange, className, disabled }: SwitchProps) 
         className
       )}
     >
-      <span
-        className={cn(
-          "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform",
-          checked ? "translate-x-5" : "translate-x-0"
-        )}
+      <motion.span
+        layout
+        transition={{ type: "spring", stiffness: 600, damping: 32 }}
+        className="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0"
+        style={{ marginLeft: checked ? "1.25rem" : 0 }}
       />
     </button>
   );

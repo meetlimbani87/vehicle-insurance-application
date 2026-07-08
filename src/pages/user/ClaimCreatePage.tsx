@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { createClaimSchema, type CreateClaimInput } from "@/schemas/claimSchemas";
 import { useCreateClaim } from "@/hooks/useClaims";
 import { usePolicies } from "@/hooks/usePolicies";
+import PageHeader from "@/components/layout/PageHeader";
 import { ROUTES } from "@/constants/routes";
 
 const pageVariants = {
@@ -79,8 +80,7 @@ export default function ClaimCreatePage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate" className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2">File a Claim</h1>
-      <p className="text-muted-foreground mb-4">Submit your insurance claim in 5 easy steps</p>
+      <PageHeader title="File a Claim" description="Submit your insurance claim in 5 easy steps" className="mb-4" />
 
       <div className="mb-6">
         <Progress value={((step + 1) / steps.length) * 100} />

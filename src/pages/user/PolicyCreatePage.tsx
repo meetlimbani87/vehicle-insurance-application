@@ -11,6 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { vehicleStepSchema, policyStepSchema, type CreatePolicyInput } from "@/schemas/policySchemas";
 import { useCreatePolicy } from "@/hooks/usePolicies";
 import { ROUTES } from "@/constants/routes";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },
@@ -66,8 +67,7 @@ export default function PolicyCreatePage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate" className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2">Create New Policy</h1>
-      <p className="text-muted-foreground mb-4">Complete the steps below to register your vehicle insurance</p>
+      <PageHeader title="Create New Policy" description="Complete the steps below to register your vehicle insurance" className="mb-4" />
 
       {/* Progress */}
       <div className="mb-6">

@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -16,10 +17,7 @@ export default function MaintenancePage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate" className="max-w-2xl mx-auto">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Maintenance Settings</h1>
-        <p className="text-muted-foreground">Control system maintenance mode</p>
-      </div>
+      <PageHeader title="Maintenance Settings" description="Control system maintenance mode" />
 
       <div className="space-y-4">
         <Card>

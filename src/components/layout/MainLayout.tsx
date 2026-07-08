@@ -4,13 +4,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCurrentUser, useLogout } from "@/hooks/useAuth";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import { getBreadcrumbs } from "@/lib/breadcrumbs";
+import Breadcrumb from "@/components/ui/breadcrumb";
 import {
-  Shield, FileText, LayoutDashboard, Plus, AlertCircle, CreditCard,
-  BarChart3, User, FileSearch, Bell, Settings, LogOut, Menu, X,
-  ClipboardList, Calendar, Receipt, BookOpen, Users, Activity, Wrench, ChevronDown
+  Shield, FileText, LayoutDashboard, Plus, AlertCircle,
+  BarChart3, User, FileSearch, Bell, LogOut, X,
+  ClipboardList, Calendar, Receipt, BookOpen, Users, Activity, Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import Tooltip from "@/components/ui/tooltip";
+import TopBar from "./TopBar";
 
 interface MainLayoutProps {
   isAdmin?: boolean;
@@ -41,35 +45,26 @@ const adminNavItems = [
 
 export default function MainLayout({ isAdmin }: MainLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const user = useCurrentUser();
   const logout = useLogout();
   const navItems = isAdmin ? adminNavItems : userNavItems;
+  const breadcrumbs = getBreadcrumbs(location.pathname, isAdmin);
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      {/* Mobile header */}
-      <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between border-b bg-background/95 backdrop-blur px-4 h-14">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)}>
-            <Menu className="h-5 w-5" />
-          </Button>
-          <div className="h-7 w-7 rounded-lg bg-brand-primary flex items-center justify-center">
-            <Shield className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-display font-bold text-brand-primary">VehicleInsure</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link to={ROUTES.NOTIFICATIONS}>
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-0.5 -right-0.5 h-3 w-3 rounded-full bg-destructive" />
-            </Button>
-          </Link>
-        </div>
-      </header>
-
-      {/* Sidebar overlay */}
+    <div className="relative min-h-screen bg-secondary/70">
+      {/* Layered tint anchored to the sidebar edge — keeps the content area from
+          reading as flat white against the navy rail. Fixed so it doesn't scroll
+          away and expose plain white beneath long pages. */}
+      <div
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(46rem 26rem at -6% -8%, rgba(46,109,164,0.09), transparent 60%), radial-gradient(34rem 22rem at 108% 6%, rgba(14,156,136,0.06), transparent 55%)",
+        }}
+      />
+      {/* Sidebar overlay (mobile) */}
       <AnimatePresence>
         {sidebarOpen && (
           <motion.div
@@ -79,7 +74,7 @@ export default function MainLayout({ isAdmin }: MainLayoutProps) {
             className="fixed inset-0 z-50 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           >
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -87,21 +82,22 @@ export default function MainLayout({ isAdmin }: MainLayoutProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-50 h-full w-64 bg-background border-r transition-transform duration-300 lg:translate-x-0",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed top-0 left-0 z-50 h-full bg-brand-primary transition-[width,transform] duration-300 lg:translate-x-0 flex flex-col",
+          sidebarOpen ? "translate-x-0 w-64" : "-translate-x-full w-64",
+          collapsed ? "lg:w-[4.5rem]" : "lg:w-64"
         )}
       >
-        <div className="flex items-center justify-between h-16 px-4 border-b">
-          <Link to={isAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.DASHBOARD} className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-lg bg-brand-primary flex items-center justify-center shadow-sm">
-              <Shield className="h-5 w-5 text-white" />
+        <div className={cn("flex items-center h-16 border-b border-white/10 shrink-0", collapsed ? "lg:justify-center px-4" : "justify-between px-4")}>
+          <Link to={isAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.DASHBOARD} className="flex items-center gap-2.5 min-w-0">
+            <div className="h-8 w-8 rounded-lg bg-brand-accent flex items-center justify-center shadow-sm shrink-0">
+              <Shield className="h-4 w-4 text-white" />
             </div>
-            <div>
-              <span className="font-display font-bold text-brand-primary text-sm tracking-tight">VehicleInsure</span>
-              {isAdmin && <Badge variant="warning" className="ml-1 text-[10px] px-1.5 py-0">Admin</Badge>}
+            <div className={cn("min-w-0", collapsed && "lg:hidden")}>
+              <span className="font-display font-bold text-white text-sm tracking-tight truncate block">VehicleInsure</span>
+              {isAdmin && <Badge variant="warning" className="mt-0.5 text-[10px] px-1.5 py-0">Admin</Badge>}
             </div>
           </Link>
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(false)}>
+          <Button variant="ghost" size="icon" className="lg:hidden text-white/70 hover:text-white hover:bg-white/10" onClick={() => setSidebarOpen(false)}>
             <X className="h-4 w-4" />
           </Button>
         </div>
@@ -110,72 +106,90 @@ export default function MainLayout({ isAdmin }: MainLayoutProps) {
           initial="hidden"
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.03 } } }}
-          className="flex flex-col gap-0.5 p-3 overflow-y-auto h-[calc(100%-8rem)]"
+          className="flex flex-col gap-0.5 p-3 overflow-y-auto flex-1"
         >
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.to;
+          {navItems.map((navItem) => {
+            const isActive = location.pathname === navItem.to;
             return (
-              <motion.div
-                key={item.to}
-                variants={{ hidden: { opacity: 0, x: -8 }, show: { opacity: 1, x: 0 } }}
-              >
-                <Link
-                  to={item.to}
-                  onClick={() => setSidebarOpen(false)}
-                  className={cn(
-                    "relative flex items-center gap-3 rounded-lg pl-3.5 pr-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-brand-primary/[0.06] text-brand-primary font-semibold"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="active-nav-pill"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-full bg-brand-accent"
-                    />
-                  )}
-                  <item.icon className={cn("h-4 w-4 shrink-0 transition-transform", isActive && "text-brand-accent")} />
-                  {item.label}
-                </Link>
+              <motion.div key={navItem.to} variants={{ hidden: { opacity: 0, x: -8 }, show: { opacity: 1, x: 0 } }}>
+                <Tooltip content={navItem.label} side="right" disabled={!collapsed}>
+                  <Link
+                    to={navItem.to}
+                    onClick={() => setSidebarOpen(false)}
+                    className={cn(
+                      "relative flex items-center gap-3 rounded-lg py-2.5 text-sm font-medium transition-colors w-full",
+                      collapsed ? "lg:justify-center lg:px-0 px-3.5" : "pl-3.5 pr-3",
+                      isActive ? "bg-white/[0.08] text-white font-semibold" : "text-white/55 hover:bg-white/[0.06] hover:text-white"
+                    )}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="active-nav-pill"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-full bg-brand-accent"
+                      />
+                    )}
+                    <navItem.icon className={cn("h-4 w-4 shrink-0", isActive && "text-brand-accent")} />
+                    <span className={cn(collapsed && "lg:hidden")}>{navItem.label}</span>
+                  </Link>
+                </Tooltip>
               </motion.div>
             );
           })}
         </motion.nav>
 
-        <div className="absolute bottom-0 left-0 right-0 border-t p-3 bg-background">
-          <div className="flex items-center gap-2 mb-2 px-2">
-            <div className="h-8 w-8 rounded-full bg-brand-secondary flex items-center justify-center text-white text-xs font-display font-bold">
+        <div className="border-t border-white/10 p-3 shrink-0">
+          <div className={cn("flex items-center gap-2 mb-2 px-2", collapsed && "lg:justify-center lg:px-0")}>
+            <div className="h-8 w-8 rounded-full bg-brand-secondary flex items-center justify-center text-white text-xs font-display font-bold shrink-0">
               {user?.name?.charAt(0) || "U"}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{user?.name || "User"}</p>
-              <p className="text-xs text-muted-foreground truncate">{user?.email || ""}</p>
+            <div className={cn("flex-1 min-w-0", collapsed && "lg:hidden")}>
+              <p className="text-sm font-medium text-white truncate">{user?.name || "User"}</p>
+              <p className="text-xs text-white/40 truncate">{user?.email || ""}</p>
             </div>
           </div>
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground" size="sm" onClick={logout}>
-            <LogOut className="h-4 w-4 mr-2" /> Logout
+          <Button
+            variant="ghost"
+            className={cn("w-full text-white/55 hover:bg-white/[0.06] hover:text-white", collapsed ? "lg:justify-center lg:px-0 justify-start" : "justify-start")}
+            size="sm"
+            onClick={logout}
+            title={collapsed ? "Logout" : undefined}
+          >
+            <LogOut className="h-4 w-4" />
+            <span className={cn(collapsed && "lg:hidden")}>Logout</span>
           </Button>
         </div>
       </aside>
 
       {/* Main content */}
-      <main className="lg:ml-64 min-h-screen">
-        <div className="p-4 md:p-5 lg:p-6 max-w-7xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </main>
+      <div className={cn("transition-[margin] duration-300", collapsed ? "lg:ml-[4.5rem]" : "lg:ml-64")}>
+        <TopBar
+          breadcrumbs={breadcrumbs}
+          navItems={navItems}
+          sidebarCollapsed={collapsed}
+          onToggleCollapse={() => setCollapsed((c) => !c)}
+          onOpenMobileSidebar={() => setSidebarOpen(true)}
+        />
+
+        <main className="min-h-[calc(100vh-4rem)]">
+          <div className="p-4 sm:p-6 lg:p-8 max-w-[90rem] mx-auto">
+            <div className="mb-4 md:hidden">
+              <Breadcrumb items={breadcrumbs} />
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+              >
+                <Outlet />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { mockNotifications, type Notification } from "@/mock/mockNotifications";
 import { toast } from "sonner";
+import PageHeader from "@/components/layout/PageHeader";
 
 const pageVariants = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 const container = { animate: { transition: { staggerChildren: 0.05 } } };
@@ -68,15 +69,15 @@ export default function NotificationsPage() {
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Notifications</h1>
-          <p className="text-muted-foreground">{unreadCount} unread notifications</p>
-        </div>
-        <Button variant="outline" onClick={markAllRead}>
-          <CheckCheck className="h-4 w-4 mr-2" /> Mark All Read
-        </Button>
-      </div>
+      <PageHeader
+        title="Notifications"
+        description={`${unreadCount} unread notifications`}
+        actions={
+          <Button variant="outline" onClick={markAllRead}>
+            <CheckCheck className="h-4 w-4 mr-2" /> Mark All Read
+          </Button>
+        }
+      />
 
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList className="mb-4 overflow-x-auto">
