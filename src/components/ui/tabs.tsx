@@ -35,8 +35,30 @@ interface TabsListProps {
 }
 
 function TabsList({ children, className, activeValue, onValueChange, groupId }: TabsListProps) {
+  const listRef = React.useRef<HTMLDivElement>(null);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(e.key)) return;
+    const triggers = Array.from(listRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? []);
+    if (triggers.length === 0) return;
+    const currentIndex = triggers.findIndex((t) => t === document.activeElement);
+    let nextIndex = currentIndex;
+    if (e.key === "ArrowRight") nextIndex = (currentIndex + 1 + triggers.length) % triggers.length;
+    if (e.key === "ArrowLeft") nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
+    if (e.key === "Home") nextIndex = 0;
+    if (e.key === "End") nextIndex = triggers.length - 1;
+    e.preventDefault();
+    triggers[nextIndex]?.focus();
+    triggers[nextIndex]?.click();
+  };
+
   return (
-    <div className={cn("inline-flex h-10 items-center justify-start rounded-lg bg-muted p-1 text-muted-foreground gap-1", className)}>
+    <div
+      ref={listRef}
+      role="tablist"
+      onKeyDown={handleKeyDown}
+      className={cn("inline-flex h-10 items-center justify-start rounded-lg bg-muted p-1 text-muted-foreground gap-1", className)}
+    >
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(
@@ -64,9 +86,14 @@ function TabsTrigger({ value, children, className, activeValue, onValueChange, g
   return (
     <button
       type="button"
+      role="tab"
+      id={groupId ? `tab-${groupId}-${value}` : undefined}
+      aria-selected={isActive}
+      aria-controls={groupId ? `tabpanel-${groupId}-${value}` : undefined}
+      tabIndex={isActive ? 0 : -1}
       onClick={() => onValueChange?.(value)}
       className={cn(
-        "relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer",
+        "relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground/80",
         className
       )}
@@ -88,14 +115,18 @@ interface TabsContentProps {
   children: React.ReactNode;
   className?: string;
   activeValue?: string;
+  groupId?: string;
 }
 
-function TabsContent({ value, children, className, activeValue }: TabsContentProps) {
+function TabsContent({ value, children, className, activeValue, groupId }: TabsContentProps) {
   return (
     <AnimatePresence mode="wait">
       {activeValue === value && (
         <motion.div
           key={value}
+          role="tabpanel"
+          id={groupId ? `tabpanel-${groupId}-${value}` : undefined}
+          aria-labelledby={groupId ? `tab-${groupId}-${value}` : undefined}
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}

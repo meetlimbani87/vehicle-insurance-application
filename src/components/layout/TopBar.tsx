@@ -90,11 +90,16 @@ export default function TopBar({ breadcrumbs, navItems, sidebarCollapsed, onTogg
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setTimeout(() => setSearchFocused(false), 120)}
             placeholder="Search pages..."
+            aria-label="Search pages"
+            role="combobox"
+            aria-expanded={searchFocused && !!query}
+            aria-autocomplete="list"
             className="h-9 w-full rounded-lg border border-input bg-muted/50 pl-9 pr-8 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:border-brand-secondary focus-visible:bg-background transition-colors"
           />
           {query && (
             <button
               onClick={() => setQuery("")}
+              aria-label="Clear search"
               className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
             >
               <X className="h-3.5 w-3.5" />

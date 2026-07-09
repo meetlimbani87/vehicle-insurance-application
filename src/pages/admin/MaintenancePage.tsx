@@ -29,12 +29,12 @@ export default function MaintenancePage() {
           <CardContent>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="font-medium">Enable Maintenance Mode</p>
+                <p id="maintenance-toggle-label" className="font-medium">Enable Maintenance Mode</p>
                 <p className="text-sm text-muted-foreground">Users will see a maintenance message</p>
               </div>
               <div className="flex items-center gap-3">
                 <Badge variant={enabled ? "destructive" : "success"}>{enabled ? "ON" : "OFF"}</Badge>
-                <Switch checked={enabled} onCheckedChange={setEnabled} />
+                <Switch aria-labelledby="maintenance-toggle-label" checked={enabled} onCheckedChange={setEnabled} />
               </div>
             </div>
 
@@ -54,10 +54,10 @@ export default function MaintenancePage() {
           </CardHeader>
           <CardContent>
             {enabled ? (
-              <div className="border-2 border-amber-200 rounded-xl p-5 bg-amber-50 text-center">
-                <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-amber-800 mb-2">Under Maintenance</h3>
-                <p className="text-sm text-amber-700">{message}</p>
+              <div className="border-2 border-brand-warn/20 rounded-xl p-5 bg-brand-warn/[0.08] text-center">
+                <AlertTriangle className="h-12 w-12 text-brand-warn mx-auto mb-3" />
+                <h3 className="text-lg font-bold text-brand-warn mb-2">Under Maintenance</h3>
+                <p className="text-sm text-brand-warn/90">{message}</p>
               </div>
             ) : (
               <div className="border-2 border-dashed border-muted rounded-xl p-5 text-center">

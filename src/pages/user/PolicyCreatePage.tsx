@@ -70,7 +70,7 @@ export default function PolicyCreatePage() {
       <PageHeader title="Create New Policy" description="Complete the steps below to register your vehicle insurance" className="mb-4" />
 
       {/* Progress */}
-      <div className="mb-6">
+      <div className="mb-6" role="group" aria-label={`Step ${step + 1} of ${steps.length}: ${steps[step]}`}>
         <Progress value={((step + 1) / steps.length) * 100} />
         <div className="flex justify-between mt-3">
           {steps.map((s, i) => (
@@ -96,31 +96,32 @@ export default function PolicyCreatePage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Vehicle Make</label>
-                    <Input placeholder="e.g. Maruti" value={form.vehicleMake} onChange={(e) => updateField("vehicleMake", e.target.value)} />
-                    {errors.vehicleMake && <p className="text-sm text-destructive mt-1">{errors.vehicleMake}</p>}
+                    <label htmlFor="policy-vehicle-make" className="text-sm font-medium mb-1.5 block">Vehicle Make</label>
+                    <Input id="policy-vehicle-make" placeholder="e.g. Maruti" value={form.vehicleMake} onChange={(e) => updateField("vehicleMake", e.target.value)} aria-invalid={!!errors.vehicleMake} aria-describedby={errors.vehicleMake ? "policy-vehicle-make-error" : undefined} />
+                    {errors.vehicleMake && <p id="policy-vehicle-make-error" role="alert" className="text-sm text-destructive mt-1">{errors.vehicleMake}</p>}
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Vehicle Model</label>
-                    <Input placeholder="e.g. Swift" value={form.vehicleModel} onChange={(e) => updateField("vehicleModel", e.target.value)} />
-                    {errors.vehicleModel && <p className="text-sm text-destructive mt-1">{errors.vehicleModel}</p>}
+                    <label htmlFor="policy-vehicle-model" className="text-sm font-medium mb-1.5 block">Vehicle Model</label>
+                    <Input id="policy-vehicle-model" placeholder="e.g. Swift" value={form.vehicleModel} onChange={(e) => updateField("vehicleModel", e.target.value)} aria-invalid={!!errors.vehicleModel} aria-describedby={errors.vehicleModel ? "policy-vehicle-model-error" : undefined} />
+                    {errors.vehicleModel && <p id="policy-vehicle-model-error" role="alert" className="text-sm text-destructive mt-1">{errors.vehicleModel}</p>}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Year</label>
-                    <Input placeholder="2024" value={form.vehicleYear} onChange={(e) => updateField("vehicleYear", e.target.value)} />
-                    {errors.vehicleYear && <p className="text-sm text-destructive mt-1">{errors.vehicleYear}</p>}
+                    <label htmlFor="policy-vehicle-year" className="text-sm font-medium mb-1.5 block">Year</label>
+                    <Input id="policy-vehicle-year" placeholder="2024" value={form.vehicleYear} onChange={(e) => updateField("vehicleYear", e.target.value)} aria-invalid={!!errors.vehicleYear} aria-describedby={errors.vehicleYear ? "policy-vehicle-year-error" : undefined} />
+                    {errors.vehicleYear && <p id="policy-vehicle-year-error" role="alert" className="text-sm text-destructive mt-1">{errors.vehicleYear}</p>}
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Registration No</label>
-                    <Input placeholder="GJ01AB1234" value={form.registrationNo} onChange={(e) => updateField("registrationNo", e.target.value)} />
-                    {errors.registrationNo && <p className="text-sm text-destructive mt-1">{errors.registrationNo}</p>}
+                    <label htmlFor="policy-registration-no" className="text-sm font-medium mb-1.5 block">Registration No</label>
+                    <Input id="policy-registration-no" placeholder="GJ01AB1234" value={form.registrationNo} onChange={(e) => updateField("registrationNo", e.target.value)} aria-invalid={!!errors.registrationNo} aria-describedby={errors.registrationNo ? "policy-registration-no-error" : undefined} />
+                    {errors.registrationNo && <p id="policy-registration-no-error" role="alert" className="text-sm text-destructive mt-1">{errors.registrationNo}</p>}
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block">Vehicle Type</label>
+                  <label htmlFor="policy-vehicle-type" className="text-sm font-medium mb-1.5 block">Vehicle Type</label>
                   <Select
+                    id="policy-vehicle-type"
                     value={form.vehicleType}
                     onChange={(e) => updateField("vehicleType", e.target.value)}
                     options={[
@@ -138,31 +139,32 @@ export default function PolicyCreatePage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Policy Number</label>
-                    <Input placeholder="POL-2024-006" value={form.policyNumber} onChange={(e) => updateField("policyNumber", e.target.value)} />
-                    {errors.policyNumber && <p className="text-sm text-destructive mt-1">{errors.policyNumber}</p>}
+                    <label htmlFor="policy-number" className="text-sm font-medium mb-1.5 block">Policy Number</label>
+                    <Input id="policy-number" placeholder="POL-2024-006" value={form.policyNumber} onChange={(e) => updateField("policyNumber", e.target.value)} aria-invalid={!!errors.policyNumber} aria-describedby={errors.policyNumber ? "policy-number-error" : undefined} />
+                    {errors.policyNumber && <p id="policy-number-error" role="alert" className="text-sm text-destructive mt-1">{errors.policyNumber}</p>}
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Insurance Company</label>
-                    <Input placeholder="HDFC Ergo" value={form.insuranceCompany} onChange={(e) => updateField("insuranceCompany", e.target.value)} />
-                    {errors.insuranceCompany && <p className="text-sm text-destructive mt-1">{errors.insuranceCompany}</p>}
+                    <label htmlFor="policy-insurance-company" className="text-sm font-medium mb-1.5 block">Insurance Company</label>
+                    <Input id="policy-insurance-company" placeholder="HDFC Ergo" value={form.insuranceCompany} onChange={(e) => updateField("insuranceCompany", e.target.value)} aria-invalid={!!errors.insuranceCompany} aria-describedby={errors.insuranceCompany ? "policy-insurance-company-error" : undefined} />
+                    {errors.insuranceCompany && <p id="policy-insurance-company-error" role="alert" className="text-sm text-destructive mt-1">{errors.insuranceCompany}</p>}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">Start Date</label>
-                    <Input type="date" value={form.startDate} onChange={(e) => updateField("startDate", e.target.value)} />
-                    {errors.startDate && <p className="text-sm text-destructive mt-1">{errors.startDate}</p>}
+                    <label htmlFor="policy-start-date" className="text-sm font-medium mb-1.5 block">Start Date</label>
+                    <Input id="policy-start-date" type="date" value={form.startDate} onChange={(e) => updateField("startDate", e.target.value)} aria-invalid={!!errors.startDate} aria-describedby={errors.startDate ? "policy-start-date-error" : undefined} />
+                    {errors.startDate && <p id="policy-start-date-error" role="alert" className="text-sm text-destructive mt-1">{errors.startDate}</p>}
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-1.5 block">End Date</label>
-                    <Input type="date" value={form.endDate} onChange={(e) => updateField("endDate", e.target.value)} />
-                    {errors.endDate && <p className="text-sm text-destructive mt-1">{errors.endDate}</p>}
+                    <label htmlFor="policy-end-date" className="text-sm font-medium mb-1.5 block">End Date</label>
+                    <Input id="policy-end-date" type="date" value={form.endDate} onChange={(e) => updateField("endDate", e.target.value)} aria-invalid={!!errors.endDate} aria-describedby={errors.endDate ? "policy-end-date-error" : undefined} />
+                    {errors.endDate && <p id="policy-end-date-error" role="alert" className="text-sm text-destructive mt-1">{errors.endDate}</p>}
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block">Coverage Type</label>
+                  <label htmlFor="policy-coverage-type" className="text-sm font-medium mb-1.5 block">Coverage Type</label>
                   <Select
+                    id="policy-coverage-type"
                     value={form.coverageType}
                     onChange={(e) => updateField("coverageType", e.target.value)}
                     options={[
@@ -178,8 +180,17 @@ export default function PolicyCreatePage() {
             {step === 2 && (
               <div className="space-y-4">
                 <div
-                  className="border-2 border-dashed rounded-xl p-6 text-center hover:border-brand-secondary transition-colors cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Click to upload documents: RC, PUC, or Previous Policy as PDF or JPG"
+                  className="border-2 border-dashed rounded-xl p-6 text-center hover:border-brand-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   onClick={() => setFiles([...files, `document_${files.length + 1}.pdf`])}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setFiles([...files, `document_${files.length + 1}.pdf`]);
+                    }
+                  }}
                 >
                   <Upload className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-sm font-medium">Click to upload documents</p>
@@ -193,7 +204,7 @@ export default function PolicyCreatePage() {
                           <File className="h-4 w-4 text-brand-secondary" />
                           <span className="text-sm">{f}</span>
                         </div>
-                        <button onClick={() => setFiles(files.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive cursor-pointer">
+                        <button aria-label={`Remove ${f}`} onClick={() => setFiles(files.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
                           <X className="h-4 w-4" />
                         </button>
                       </div>
@@ -213,7 +224,7 @@ export default function PolicyCreatePage() {
                 Next <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             ) : (
-              <Button onClick={handleSubmit} disabled={createPolicy.isPending}>
+              <Button onClick={handleSubmit} disabled={createPolicy.isPending} aria-busy={createPolicy.isPending}>
                 {createPolicy.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Submit Policy
               </Button>

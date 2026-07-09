@@ -35,7 +35,7 @@ export default function PolicyDetailPage() {
   };
 
   const daysRemaining = getDaysRemaining();
-  const expiryColor = daysRemaining > 90 ? "text-emerald-600" : daysRemaining > 30 ? "text-amber-600" : "text-destructive";
+  const expiryColor = daysRemaining > 90 ? "text-brand-accent" : daysRemaining > 30 ? "text-brand-warn" : "text-destructive";
 
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate">
@@ -105,10 +105,10 @@ export default function PolicyDetailPage() {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left py-3 px-2 font-medium text-muted-foreground">Date</th>
-                          <th className="text-left py-3 px-2 font-medium text-muted-foreground">Amount</th>
-                          <th className="text-left py-3 px-2 font-medium text-muted-foreground">Status</th>
-                          <th className="text-left py-3 px-2 font-medium text-muted-foreground">Receipt</th>
+                          <th scope="col" className="text-left py-3 px-2 font-medium text-muted-foreground">Date</th>
+                          <th scope="col" className="text-left py-3 px-2 font-medium text-muted-foreground">Amount</th>
+                          <th scope="col" className="text-left py-3 px-2 font-medium text-muted-foreground">Status</th>
+                          <th scope="col" className="text-left py-3 px-2 font-medium text-muted-foreground">Receipt</th>
                         </tr>
                       </thead>
                       <tbody>

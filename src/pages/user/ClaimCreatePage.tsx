@@ -82,7 +82,7 @@ export default function ClaimCreatePage() {
     <motion.div variants={pageVariants} initial="initial" animate="animate" className="max-w-2xl mx-auto">
       <PageHeader title="File a Claim" description="Submit your insurance claim in 5 easy steps" className="mb-4" />
 
-      <div className="mb-6">
+      <div className="mb-6" role="group" aria-label={`Step ${step + 1} of ${steps.length}: ${steps[step]}`}>
         <Progress value={((step + 1) / steps.length) * 100} />
         <div className="flex justify-between mt-3">
           {steps.map((s, i) => (
@@ -106,8 +106,9 @@ export default function ClaimCreatePage() {
           <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             {step === 0 && (
               <div>
-                <label className="text-sm font-medium mb-1.5 block">Select Policy</label>
+                <label htmlFor="claim-policy" className="text-sm font-medium mb-1.5 block">Select Policy</label>
                 <Select
+                  id="claim-policy"
                   value={form.policyId}
                   onChange={(e) => updateField("policyId", e.target.value)}
                   placeholder="Choose a policy"
@@ -115,8 +116,10 @@ export default function ClaimCreatePage() {
                     value: p.id,
                     label: `${p.policyNumber} — ${p.vehicleMake} ${p.vehicleModel}`,
                   }))}
+                  aria-invalid={!!errors.policyId}
+                  aria-describedby={errors.policyId ? "claim-policy-error" : undefined}
                 />
-                {errors.policyId && <p className="text-sm text-destructive mt-1">{errors.policyId}</p>}
+                {errors.policyId && <p id="claim-policy-error" role="alert" className="text-sm text-destructive mt-1">{errors.policyId}</p>}
                 {selectedPolicy && (
                   <div className="mt-4 p-4 border rounded-lg bg-muted/30">
                     <p className="text-sm font-medium">{selectedPolicy.vehicleMake} {selectedPolicy.vehicleModel} ({selectedPolicy.vehicleYear})</p>
@@ -129,19 +132,19 @@ export default function ClaimCreatePage() {
             {step === 1 && (
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block">Accident Date</label>
-                  <Input type="date" value={form.accidentDate} onChange={(e) => updateField("accidentDate", e.target.value)} />
-                  {errors.accidentDate && <p className="text-sm text-destructive mt-1">{errors.accidentDate}</p>}
+                  <label htmlFor="claim-accident-date" className="text-sm font-medium mb-1.5 block">Accident Date</label>
+                  <Input id="claim-accident-date" type="date" value={form.accidentDate} onChange={(e) => updateField("accidentDate", e.target.value)} aria-invalid={!!errors.accidentDate} aria-describedby={errors.accidentDate ? "claim-accident-date-error" : undefined} />
+                  {errors.accidentDate && <p id="claim-accident-date-error" role="alert" className="text-sm text-destructive mt-1">{errors.accidentDate}</p>}
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block">Location</label>
-                  <Input placeholder="e.g. Mumbai, Western Express Highway" value={form.location} onChange={(e) => updateField("location", e.target.value)} />
-                  {errors.location && <p className="text-sm text-destructive mt-1">{errors.location}</p>}
+                  <label htmlFor="claim-location" className="text-sm font-medium mb-1.5 block">Location</label>
+                  <Input id="claim-location" placeholder="e.g. Mumbai, Western Express Highway" value={form.location} onChange={(e) => updateField("location", e.target.value)} aria-invalid={!!errors.location} aria-describedby={errors.location ? "claim-location-error" : undefined} />
+                  {errors.location && <p id="claim-location-error" role="alert" className="text-sm text-destructive mt-1">{errors.location}</p>}
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1.5 block">Description</label>
-                  <Textarea placeholder="Describe what happened in detail (min 20 chars)..." rows={4} value={form.description} onChange={(e) => updateField("description", e.target.value)} />
-                  {errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
+                  <label htmlFor="claim-description" className="text-sm font-medium mb-1.5 block">Description</label>
+                  <Textarea id="claim-description" placeholder="Describe what happened in detail (min 20 chars)..." rows={4} value={form.description} onChange={(e) => updateField("description", e.target.value)} aria-invalid={!!errors.description} aria-describedby={errors.description ? "claim-description-error" : undefined} />
+                  {errors.description && <p id="claim-description-error" role="alert" className="text-sm text-destructive mt-1">{errors.description}</p>}
                 </div>
               </div>
             )}
@@ -149,8 +152,17 @@ export default function ClaimCreatePage() {
             {step === 2 && (
               <div className="space-y-4">
                 <div
-                  className="border-2 border-dashed rounded-xl p-6 text-center hover:border-brand-secondary transition-colors cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Upload damage photos, minimum 1 required"
+                  className="border-2 border-dashed rounded-xl p-6 text-center hover:border-brand-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   onClick={() => setPhotos([...photos, `damage_photo_${photos.length + 1}.jpg`])}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setPhotos([...photos, `damage_photo_${photos.length + 1}.jpg`]);
+                    }
+                  }}
                 >
                   <Image className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-sm font-medium">Upload damage photos</p>
@@ -162,7 +174,7 @@ export default function ClaimCreatePage() {
                       <div key={i} className="relative border rounded-lg p-3 bg-muted/30 flex items-center gap-2">
                         <Image className="h-4 w-4 text-brand-secondary" />
                         <span className="text-xs truncate flex-1">{p}</span>
-                        <button onClick={() => setPhotos(photos.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive cursor-pointer">
+                        <button aria-label={`Remove ${p}`} onClick={() => setPhotos(photos.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
                           <X className="h-3 w-3" />
                         </button>
                       </div>
@@ -175,8 +187,17 @@ export default function ClaimCreatePage() {
             {step === 3 && (
               <div className="space-y-4">
                 <div
-                  className="border-2 border-dashed rounded-xl p-6 text-center hover:border-brand-secondary transition-colors cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Upload supporting documents such as FIR or driving license"
+                  className="border-2 border-dashed rounded-xl p-6 text-center hover:border-brand-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   onClick={() => setDocs([...docs, `document_${docs.length + 1}.pdf`])}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setDocs([...docs, `document_${docs.length + 1}.pdf`]);
+                    }
+                  }}
                 >
                   <Upload className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-sm font-medium">Upload supporting documents</p>
@@ -190,7 +211,7 @@ export default function ClaimCreatePage() {
                           <File className="h-4 w-4 text-brand-secondary" />
                           <span className="text-sm">{d}</span>
                         </div>
-                        <button onClick={() => setDocs(docs.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive cursor-pointer">
+                        <button aria-label={`Remove ${d}`} onClick={() => setDocs(docs.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-destructive cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
                           <X className="h-4 w-4" />
                         </button>
                       </div>
@@ -224,7 +245,7 @@ export default function ClaimCreatePage() {
                 Next <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             ) : (
-              <Button onClick={handleSubmit} disabled={createClaim.isPending}>
+              <Button onClick={handleSubmit} disabled={createClaim.isPending} aria-busy={createClaim.isPending}>
                 {createClaim.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Submit Claim
               </Button>

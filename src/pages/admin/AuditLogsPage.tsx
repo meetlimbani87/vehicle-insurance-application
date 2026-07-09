@@ -65,12 +65,12 @@ export default function AuditLogsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Timestamp</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">User</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Action</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Entity</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground hidden md:table-cell">Entity ID</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground hidden lg:table-cell">IP</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Timestamp</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">User</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Action</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Entity</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground hidden md:table-cell">Entity ID</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground hidden lg:table-cell">IP</th>
                 </tr>
               </thead>
               <tbody>

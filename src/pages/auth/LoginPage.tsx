@@ -83,18 +83,21 @@ export default function LoginPage() {
                 animate={errors.email ? { x: [0, -6, 5, -4, 3, 0] } : undefined}
                 transition={errors.email ? { duration: 0.4 } : undefined}
               >
-                <label className="text-sm font-medium mb-1.5 block text-foreground">Email</label>
+                <label htmlFor="login-email" className="text-sm font-medium mb-1.5 block text-foreground">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
+                    id="login-email"
                     type="email"
                     placeholder="you@example.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     className="pl-9"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "login-email-error" : undefined}
                   />
                 </div>
-                {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
+                {errors.email && <p id="login-email-error" role="alert" className="text-sm text-destructive mt-1">{errors.email}</p>}
               </motion.div>
 
               <motion.div
@@ -103,7 +106,7 @@ export default function LoginPage() {
                 transition={errors.password ? { duration: 0.4 } : undefined}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-sm font-medium text-foreground">Password</label>
+                  <label htmlFor="login-password" className="text-sm font-medium text-foreground">Password</label>
                   <button
                     type="button"
                     onClick={() => toast.info("Password reset isn't wired up in this demo yet")}
@@ -115,21 +118,25 @@ export default function LoginPage() {
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
+                    id="login-password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                     className="pl-9 pr-10"
+                    aria-invalid={!!errors.password}
+                    aria-describedby={errors.password ? "login-password-error" : undefined}
                   />
                   <button
                     type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
-                {errors.password && <p className="text-sm text-destructive mt-1">{errors.password}</p>}
+                {errors.password && <p id="login-password-error" role="alert" className="text-sm text-destructive mt-1">{errors.password}</p>}
               </motion.div>
 
               <div className="flex items-center gap-2.5">
@@ -140,7 +147,7 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <Button type="submit" className="w-full" size="lg" disabled={login.isPending}>
+                <Button type="submit" className="w-full" size="lg" disabled={login.isPending} aria-busy={login.isPending}>
                   {login.isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (

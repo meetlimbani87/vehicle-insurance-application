@@ -50,10 +50,10 @@ export default function PaymentSchedulePage() {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">{MONTHS[month]} {year}</CardTitle>
               <div className="flex gap-1">
-                <Button variant="outline" size="icon" onClick={() => setCurrentDate(new Date(year, month - 1, 1))}>
+                <Button variant="outline" size="icon" aria-label="Previous month" onClick={() => setCurrentDate(new Date(year, month - 1, 1))}>
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" onClick={() => setCurrentDate(new Date(year, month + 1, 1))}>
+                <Button variant="outline" size="icon" aria-label="Next month" onClick={() => setCurrentDate(new Date(year, month + 1, 1))}>
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
@@ -73,13 +73,21 @@ export default function PaymentSchedulePage() {
                   const hasOverdue = payments?.some((p) => p.status === "Overdue");
                   const hasPending = payments?.some((p) => p.status === "Pending");
 
+                  const label = isToday
+                    ? `${MONTHS[month]} ${day}, today`
+                    : payments
+                      ? `${MONTHS[month]} ${day}, payment ${hasOverdue ? "overdue" : "due"}`
+                      : `${MONTHS[month]} ${day}`;
+
                   return (
                     <div
                       key={day}
-                      className={`relative text-center py-2 rounded-lg text-sm ${
+                      role="gridcell"
+                      aria-label={label}
+                      className={`relative text-center py-2 rounded-lg text-sm transition-colors ${
                         isToday ? "bg-brand-primary text-white font-bold" :
-                        hasOverdue ? "bg-red-100 text-red-800 font-medium" :
-                        hasPending ? "bg-amber-100 text-amber-800 font-medium" : "hover:bg-muted"
+                        hasOverdue ? "bg-destructive/10 text-destructive font-medium" :
+                        hasPending ? "bg-brand-warn/10 text-brand-warn font-medium" : "hover:bg-muted"
                       }`}
                     >
                       {day}

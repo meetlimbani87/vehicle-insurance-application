@@ -97,12 +97,13 @@ export default function MainLayout({ isAdmin }: MainLayoutProps) {
               {isAdmin && <Badge variant="warning" className="mt-0.5 text-[10px] px-1.5 py-0">Admin</Badge>}
             </div>
           </Link>
-          <Button variant="ghost" size="icon" className="lg:hidden text-white/70 hover:text-white hover:bg-white/10" onClick={() => setSidebarOpen(false)}>
+          <Button variant="ghost" size="icon" aria-label="Close menu" className="lg:hidden text-white/70 hover:text-white hover:bg-white/10" onClick={() => setSidebarOpen(false)}>
             <X className="h-4 w-4" />
           </Button>
         </div>
 
         <motion.nav
+          aria-label="Primary"
           initial="hidden"
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.03 } } }}
@@ -116,6 +117,7 @@ export default function MainLayout({ isAdmin }: MainLayoutProps) {
                   <Link
                     to={navItem.to}
                     onClick={() => setSidebarOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
                     className={cn(
                       "relative flex items-center gap-3 rounded-lg py-2.5 text-sm font-medium transition-colors w-full",
                       collapsed ? "lg:justify-center lg:px-0 px-3.5" : "pl-3.5 pr-3",

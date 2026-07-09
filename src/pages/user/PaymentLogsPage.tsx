@@ -55,11 +55,11 @@ export default function PaymentLogsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Policy</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Amount</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Receipt</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Date</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Policy</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Amount</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Receipt</th>
                 </tr>
               </thead>
               <tbody>

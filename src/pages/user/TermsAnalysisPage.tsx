@@ -80,7 +80,7 @@ export default function TermsAnalysisPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2 text-emerald-700">
+                <CardTitle className="text-lg flex items-center gap-2 text-brand-accent">
                   <CheckCircle className="h-5 w-5" /> Coverage Included
                 </CardTitle>
               </CardHeader>
@@ -110,7 +110,7 @@ export default function TermsAnalysisPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2 text-amber-700">
+                <CardTitle className="text-lg flex items-center gap-2 text-brand-warn">
                   <AlertTriangle className="h-5 w-5" /> Limits
                 </CardTitle>
               </CardHeader>

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import EmptyState from "@/components/ui/empty-state";
 import { useClaims } from "@/hooks/useClaims";
 import { ROUTES } from "@/constants/routes";
 import PageHeader from "@/components/layout/PageHeader";
@@ -34,7 +35,7 @@ export default function ClaimTrackingPage() {
   const renderList = (list: typeof active) => {
     const filtered = filterClaims(list);
     if (isLoading) return <div className="space-y-3">{[1, 2, 3].map((i) => <Skeleton key={i} className="h-20 rounded-xl" />)}</div>;
-    if (filtered.length === 0) return <p className="text-center text-muted-foreground py-8">No claims found</p>;
+    if (filtered.length === 0) return <EmptyState icon={FileText} title="No claims found" description="Try adjusting your search or filters." compact />;
     return (
       <motion.div variants={container} initial="initial" animate="animate" className="space-y-3">
         {filtered.map((c) => (

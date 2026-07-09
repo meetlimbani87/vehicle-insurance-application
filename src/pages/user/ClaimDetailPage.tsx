@@ -180,7 +180,7 @@ export default function ClaimDetailPage() {
                           ))}
                         </div>
 
-                        <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 text-amber-800">
+                        <div className="flex items-center gap-2 p-3 rounded-lg bg-brand-warn/[0.08] text-brand-warn">
                           <AlertTriangle className="h-4 w-4 shrink-0" />
                           <p className="text-xs">This assessment is AI-generated and should be verified by a licensed surveyor. Confidence: {claim.damageAssessment.aiConfidence}%</p>
                         </div>

@@ -43,13 +43,13 @@ export default function AdminUsersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground hidden md:table-cell">Email</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground hidden lg:table-cell">Phone</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Policies</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Claims</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-muted-foreground">Actions</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Name</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground hidden md:table-cell">Email</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground hidden lg:table-cell">Phone</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Policies</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Claims</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                  <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,11 +65,17 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" onClick={() => setViewUser(u)}>
+                        <Button variant="ghost" size="icon" aria-label={`View ${u.name}`} title="View" onClick={() => setViewUser(u)}>
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" onClick={() => toggleStatus(u.id)}>
-                          {u.status === "Active" ? <UserX className="h-4 w-4 text-destructive" /> : <UserCheck className="h-4 w-4 text-emerald-600" />}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label={u.status === "Active" ? `Suspend ${u.name}` : `Reactivate ${u.name}`}
+                          title={u.status === "Active" ? "Suspend user" : "Reactivate user"}
+                          onClick={() => toggleStatus(u.id)}
+                        >
+                          {u.status === "Active" ? <UserX className="h-4 w-4 text-destructive" /> : <UserCheck className="h-4 w-4 text-brand-accent" />}
                         </Button>
                       </div>
                     </td>

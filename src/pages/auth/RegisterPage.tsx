@@ -87,47 +87,76 @@ export default function RegisterPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
-                <label className="text-sm font-medium mb-1.5 block text-foreground">Full Name</label>
+                <label htmlFor="register-name" className="text-sm font-medium mb-1.5 block text-foreground">Full Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="John Doe" value={form.name} onChange={(e) => updateField("name", e.target.value)} className="pl-9" />
+                  <Input
+                    id="register-name"
+                    placeholder="John Doe"
+                    value={form.name}
+                    onChange={(e) => updateField("name", e.target.value)}
+                    className="pl-9"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "register-name-error" : undefined}
+                  />
                 </div>
-                {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
+                {errors.name && <p id="register-name-error" role="alert" className="text-sm text-destructive mt-1">{errors.name}</p>}
               </motion.div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
-                  <label className="text-sm font-medium mb-1.5 block text-foreground">Email</label>
+                  <label htmlFor="register-email" className="text-sm font-medium mb-1.5 block text-foreground">Email</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input type="email" placeholder="you@example.com" value={form.email} onChange={(e) => updateField("email", e.target.value)} className="pl-9" />
+                    <Input
+                      id="register-email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={form.email}
+                      onChange={(e) => updateField("email", e.target.value)}
+                      className="pl-9"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "register-email-error" : undefined}
+                    />
                   </div>
-                  {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
+                  {errors.email && <p id="register-email-error" role="alert" className="text-sm text-destructive mt-1">{errors.email}</p>}
                 </motion.div>
 
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
-                  <label className="text-sm font-medium mb-1.5 block text-foreground">Phone</label>
+                  <label htmlFor="register-phone" className="text-sm font-medium mb-1.5 block text-foreground">Phone</label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input placeholder="9876543210" value={form.phone} onChange={(e) => updateField("phone", e.target.value)} className="pl-9" />
+                    <Input
+                      id="register-phone"
+                      placeholder="9876543210"
+                      value={form.phone}
+                      onChange={(e) => updateField("phone", e.target.value)}
+                      className="pl-9"
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? "register-phone-error" : undefined}
+                    />
                   </div>
-                  {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
+                  {errors.phone && <p id="register-phone-error" role="alert" className="text-sm text-destructive mt-1">{errors.phone}</p>}
                 </motion.div>
               </div>
 
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
-                <label className="text-sm font-medium mb-1.5 block text-foreground">Password</label>
+                <label htmlFor="register-password" className="text-sm font-medium mb-1.5 block text-foreground">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
+                    id="register-password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={form.password}
                     onChange={(e) => updateField("password", e.target.value)}
                     className="pl-9 pr-10"
+                    aria-invalid={!!errors.password}
+                    aria-describedby={errors.password ? "register-password-error" : undefined}
                   />
                   <button
                     type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                   >
@@ -135,29 +164,33 @@ export default function RegisterPage() {
                   </button>
                 </div>
                 <PasswordStrengthMeter password={form.password} />
-                {errors.password && <p className="text-sm text-destructive mt-1">{errors.password}</p>}
+                {errors.password && <p id="register-password-error" role="alert" className="text-sm text-destructive mt-1">{errors.password}</p>}
               </motion.div>
 
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
-                <label className="text-sm font-medium mb-1.5 block text-foreground">Confirm Password</label>
+                <label htmlFor="register-confirm-password" className="text-sm font-medium mb-1.5 block text-foreground">Confirm Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
+                    id="register-confirm-password"
                     type={showConfirm ? "text" : "password"}
                     placeholder="••••••••"
                     value={form.confirmPassword}
                     onChange={(e) => updateField("confirmPassword", e.target.value)}
                     className="pl-9 pr-10"
+                    aria-invalid={!!errors.confirmPassword}
+                    aria-describedby={errors.confirmPassword ? "register-confirm-password-error" : undefined}
                   />
                   <button
                     type="button"
+                    aria-label={showConfirm ? "Hide password" : "Show password"}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
                     onClick={() => setShowConfirm(!showConfirm)}
                   >
                     {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
-                {errors.confirmPassword && <p className="text-sm text-destructive mt-1">{errors.confirmPassword}</p>}
+                {errors.confirmPassword && <p id="register-confirm-password-error" role="alert" className="text-sm text-destructive mt-1">{errors.confirmPassword}</p>}
               </motion.div>
 
               <motion.div
@@ -171,7 +204,7 @@ export default function RegisterPage() {
               </motion.div>
 
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
-                <Button type="submit" className="w-full" size="lg" disabled={register.isPending}>
+                <Button type="submit" className="w-full" size="lg" disabled={register.isPending} aria-busy={register.isPending}>
                   {register.isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (

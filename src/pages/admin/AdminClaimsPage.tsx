@@ -64,14 +64,14 @@ export default function AdminClaimsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b bg-muted/50">
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground">Claim #</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground">Vehicle</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground hidden md:table-cell">Policy</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground hidden lg:table-cell">Date</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground">Estimated</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground">Actual</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
-                    <th className="text-left py-3 px-4 font-medium text-muted-foreground">Actions</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Claim #</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Vehicle</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground hidden md:table-cell">Policy</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground hidden lg:table-cell">Date</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Estimated</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Actual</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                    <th scope="col" className="text-left py-3 px-4 font-medium text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -91,14 +91,14 @@ export default function AdminClaimsPage() {
                       <td className="py-3 px-4">
                         <div className="flex gap-1">
                           <Link to={ROUTES.CLAIM_DETAIL(c.id)}>
-                            <Button variant="ghost" size="icon" title="View"><Eye className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="icon" title="View" aria-label={`View claim ${c.claimNumber}`}><Eye className="h-4 w-4" /></Button>
                           </Link>
                           {(c.status === "Filed" || c.status === "Under Review") && (
                             <>
-                              <Button variant="ghost" size="icon" title="Approve" onClick={() => setActionDialog({ id: c.id, action: "Approved" })}>
-                                <CheckCircle className="h-4 w-4 text-emerald-600" />
+                              <Button variant="ghost" size="icon" title="Approve" aria-label={`Approve claim ${c.claimNumber}`} onClick={() => setActionDialog({ id: c.id, action: "Approved" })}>
+                                <CheckCircle className="h-4 w-4 text-brand-accent" />
                               </Button>
-                              <Button variant="ghost" size="icon" title="Reject" onClick={() => setActionDialog({ id: c.id, action: "Rejected" })}>
+                              <Button variant="ghost" size="icon" title="Reject" aria-label={`Reject claim ${c.claimNumber}`} onClick={() => setActionDialog({ id: c.id, action: "Rejected" })}>
                                 <XCircle className="h-4 w-4 text-destructive" />
                               </Button>
                             </>

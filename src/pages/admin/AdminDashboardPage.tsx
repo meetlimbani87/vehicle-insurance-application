@@ -40,9 +40,9 @@ export default function AdminDashboardPage() {
   const kpis = [
     { title: "Total Policies", value: mockPolicies.length, icon: Shield, color: "text-brand-primary", bg: "bg-brand-primary/10" },
     { title: "Total Claims", value: totalClaims, icon: FileText, color: "text-brand-secondary", bg: "bg-brand-secondary/10" },
-    { title: "Claimed", value: claimedCount, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
-    { title: "Unclaimed", value: unclaimedCount, icon: XCircle, color: "text-amber-600", bg: "bg-amber-50" },
-    { title: "Premium Collected", value: `₹${premiumCollected.toLocaleString()}`, icon: CreditCard, color: "text-brand-accent", bg: "bg-emerald-50" },
+    { title: "Claimed", value: claimedCount, icon: CheckCircle, color: "text-brand-accent", bg: "bg-brand-accent/10" },
+    { title: "Unclaimed", value: unclaimedCount, icon: XCircle, color: "text-brand-warn", bg: "bg-brand-warn/10" },
+    { title: "Premium Collected", value: `₹${premiumCollected.toLocaleString()}`, icon: CreditCard, color: "text-brand-accent", bg: "bg-brand-accent/10" },
   ];
 
   const totalVehicles = vehicleDistribution.reduce((s, v) => s + v.count, 0);
@@ -54,8 +54,8 @@ export default function AdminDashboardPage() {
         description="System overview and analytics"
         actions={
           <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Maintenance</span>
-            <Switch checked={maintenanceMode} onCheckedChange={() => setShowDialog(true)} />
+            <span id="dashboard-maintenance-label" className="text-sm text-muted-foreground">Maintenance</span>
+            <Switch aria-labelledby="dashboard-maintenance-label" checked={maintenanceMode} onCheckedChange={() => setShowDialog(true)} />
           </div>
         }
       />

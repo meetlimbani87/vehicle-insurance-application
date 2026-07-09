@@ -4,6 +4,7 @@ import { Bell, CreditCard, FileText, Shield, Settings, CheckCheck } from "lucide
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import EmptyState from "@/components/ui/empty-state";
 import { mockNotifications, type Notification } from "@/mock/mockNotifications";
 import { toast } from "sonner";
 import PageHeader from "@/components/layout/PageHeader";
@@ -37,7 +38,7 @@ export default function NotificationsPage() {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const renderList = (list: Notification[]) => {
-    if (list.length === 0) return <p className="text-center text-muted-foreground py-8">No notifications</p>;
+    if (list.length === 0) return <EmptyState icon={Bell} title="No notifications" description="You're all caught up — new updates will show up here." compact />;
     return (
       <motion.div variants={container} initial="initial" animate="animate" className="space-y-2">
         {list.map((n) => {
@@ -53,7 +54,7 @@ export default function NotificationsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <p className={`text-sm ${!n.read ? "font-semibold" : "font-medium"}`}>{n.title}</p>
-                      {!n.read && <div className="h-2 w-2 rounded-full bg-amber-500 shrink-0" />}
+                      {!n.read && <div className="h-2 w-2 rounded-full bg-brand-warn shrink-0" />}
                     </div>
                     <p className="text-sm text-muted-foreground">{n.message}</p>
                     <p className="text-xs text-muted-foreground mt-1">{new Date(n.timestamp).toLocaleString()}</p>

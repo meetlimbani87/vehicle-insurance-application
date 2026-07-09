@@ -51,6 +51,7 @@ function DropdownMenuTrigger({ children, className }: { children: React.ReactNod
       type="button"
       onClick={() => setOpen(!open)}
       aria-expanded={open}
+      aria-haspopup="menu"
       className={cn("cursor-pointer", className)}
     >
       {children}
@@ -72,6 +73,7 @@ function DropdownMenuContent({
     <AnimatePresence>
       {open && (
         <motion.div
+          role="menu"
           initial={{ opacity: 0, y: -6, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -6, scale: 0.97 }}
@@ -104,12 +106,13 @@ function DropdownMenuItem({
   return (
     <button
       type="button"
+      role="menuitem"
       onClick={() => {
         onClick?.();
         setOpen(false);
       }}
       className={cn(
-        "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors cursor-pointer text-left",
+        "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors cursor-pointer text-left focus-visible:outline-none focus-visible:bg-muted",
         destructive ? "text-destructive hover:bg-destructive/10" : "text-foreground hover:bg-muted",
         className
       )}
