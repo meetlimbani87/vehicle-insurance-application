@@ -1,0 +1,11 @@
+.env
+*.env
+application-local.yml
+.idea/
+.vscode/
+node_modules/
+dist/
+uploads/
+target/
+hs_err*.log
+replay_pid*.log

@@ -1,0 +1,52 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: vehicle-insurance-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_NAME:vehicle_insurance_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      # Schema is owned by Flyway migrations, not Hibernate. "validate" makes
+      # Hibernate check the schema matches the entities but never change it.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  servlet:
+    multipart:
+      max-file-size: 5MB   # matches LocalFileStorageService's own per-file check
+      max-request-size: 20MB # enough for a handful of photos/documents in one submission
+
+app:
+  cors:
+    allowed-origins: http://localhost:5173,http://localhost:4173
+  jwt:
+    # Change this in a real deployment (env var JWT_SECRET). Must be long/random.
+    secret: ${JWT_SECRET:local-dev-only-secret-please-change-in-production-vehicle-insurance-2026}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 hours
+  upload:
+    # Where claim photos/documents actually get written on disk (local storage,
+    # not Cloudinary, for now). Relative path = relative to wherever the app runs from.
+    dir: ${UPLOAD_DIR:uploads}
+
+openai:
+  api-key: ${OPENAI_API_KEY:}
+  model: ${OPENAI_MODEL:gpt-4o-mini}
+
